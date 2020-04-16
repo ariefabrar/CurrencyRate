@@ -1,15 +1,101 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.3.61'
+    ext.versions = [
+            'minSdk'           : 21,
+            'compileSdk'       : 29,
+
+            'buildTools'       : '29.0.3',
+            'androidPlugin'    : '3.6.2',
+            'lifecycle'        : '2.2.0',
+            'kotlin'           : '1.3.61',
+            'dagger'           : '2.27',
+            'gson'             : '2.8.6',
+            'retrofit'         : '2.8.1',
+            'retrofitRxAdapter': '2.5.0',
+            'okhttp'           : '4.5.0',
+            'okhttpLogging'    : '4.5.0',
+            'glide'            : '4.11.0',
+            'rxJava'           : '2.2.9',
+            'rxAndroid'        : '2.1.1',
+            'coroutines'        : '1.2.0',
+            'room'             : '2.2.5',
+            'junit'            : '4.12',
+            'mockitoKotlin'    : '1.5.0',
+            'robolectric'      : '4.3',
+            'sourceCompat'     : JavaVersion.VERSION_1_8,
+            'targetCompat'     : JavaVersion.VERSION_1_8
+    ]
+
+    ext.deps = [
+            android  : [
+                    'gradlePlugin'   : "com.android.tools.build:gradle:${versions.androidPlugin}",
+                    'lifecycleExt'   : "androidx.lifecycle:lifecycle-extensions:${versions.lifecycle}",
+                    'lifecycleCommon': "androidx.lifecycle:lifecycle-common-java8:${versions.lifecycle}",
+            ],
+            view     : [
+                    'recyclerView' : 'androidx.recyclerview:recyclerview:1.1.0',
+                    'support'      : 'androidx.legacy:legacy-support-v4:1.0.0',
+                    'designSupport': 'com.google.android.material:material:1.0.0',
+                    'constraintLayout': 'androidx.constraintlayout:constraintlayout:2.0.0-beta4',
+            ],
+            kotlin   : [
+                    'gradlePlugin': "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
+                    'stdlib7'     : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}",
+            ],
+            reactivex: [
+                    'rxJava'   : "io.reactivex.rxjava2:rxjava:${versions.rxJava}",
+                    'rxAndroid': "io.reactivex.rxjava2:rxandroid:${versions.rxAndroid}",
+                    'rxBinding': "com.jakewharton.rxbinding3:rxbinding-appcompat:3.1.0",
+
+            ],
+            coroutines: [
+                    'core'   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines",
+                    'android': "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines",
+
+            ],
+            google   : [
+                    'dagger'         : "com.google.dagger:dagger:${versions.dagger}",
+                    'daggerProcessor': "com.google.dagger:dagger-compiler:${versions.dagger}",
+                    'gson'           : "com.google.code.gson:gson:${versions.gson}",
+            ],
+            square   : [
+                    'retrofit'         : "com.squareup.retrofit2:retrofit:${versions.retrofit}",
+                    'retrofitRxAdapter': "com.squareup.retrofit2:adapter-rxjava2:${versions.retrofitRxAdapter}",
+                    'gsonConverter'    : "com.squareup.retrofit2:converter-gson:${versions.retrofit}",
+                    'okhttp'           : "com.squareup.okhttp3:okhttp:${versions.okhttp}",
+                    'okhttpLogging'    : "com.squareup.okhttp3:logging-interceptor:${versions.okhttpLogging}",
+            ],
+            glide    : [
+                    'glide'         : "com.github.bumptech.glide:glide:${versions.glide}",
+                    'glideProcessor': "com.github.bumptech.glide:compiler:${versions.glide}",
+            ],
+            room     : [
+                    'roomRuntime' : "androidx.room:room-runtime:${versions.room}",
+                    'roomCompiler': "androidx.room:room-compiler:${versions.room}",
+                    'roomRx'      : "androidx.room:room-rxjava2:${versions.room}",
+            ],
+            additional: [
+                    'jodaTime': "joda-time:joda-time:${versions.jodaTime}"
+            ],
+            test     : [
+                    'junit'          : "junit:junit:${versions.junit}",
+                    'mockitoKotlin'  : "com.nhaarman:mockito-kotlin:${versions.mockitoKotlin}",
+                    'robolectric'    : "org.robolectric:robolectric:${versions.robolectric}",
+                    'mockWebServer'  : "com.squareup.okhttp3:mockwebserver:${versions.okhttp}",
+                    'roomTesting'    : 'androidx.room:room-testing:2.0.0',
+                    'livedataTesting': 'androidx.arch.core:core-testing:2.0.0',
+            ]
+    ]
+
     repositories {
         google()
         jcenter()
-        
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath deps.android.gradlePlugin
+        classpath deps.kotlin.gradlePlugin
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -20,7 +106,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
     }
 }
 

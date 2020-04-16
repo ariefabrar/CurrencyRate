@@ -1,2 +1,3 @@
 rootProject.name='CurrencyRate'
-include ':app'
+include ':converter'
+include ':core'
