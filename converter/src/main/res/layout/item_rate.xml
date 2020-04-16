@@ -63,6 +63,7 @@
         android:autofillHints="0"
         android:hint="@string/text_hint"
         android:inputType="numberDecimal"
+        android:imeOptions="actionDone"
         app:layout_constraintBottom_toBottomOf="@id/ivCurrencyThumbnail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/ivCurrencyThumbnail"

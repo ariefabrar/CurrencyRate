@@ -34,6 +34,25 @@ class RatesAdapter(private val glide: RequestManager) :
     inner class ListViewHolder(itemView: View, private val listener: Listener?) :
         RecyclerView.ViewHolder(itemView) {
 
+        init {
+            with(itemView) {
+                setOnClickListener {
+                    etCurrency.requestFocus()
+                }
+            }
+
+            with(itemView.etCurrency) {
+                setOnFocusChangeListener { _, isFocused ->
+                    if (isFocused) {
+                        if (adapterPosition != 0) {
+                            listener?.onBaseRateChanged(adapterPosition, getItem(adapterPosition))
+                            setSelection(text.length)
+                        }
+                    }
+                }
+            }
+        }
+
         fun bind(item: Rate) = with(itemView) {
             tvCurrencyShort.text = item.currencyCode
             tvCurrencyLong.text = Currency.getInstance(item.currencyCode).displayName

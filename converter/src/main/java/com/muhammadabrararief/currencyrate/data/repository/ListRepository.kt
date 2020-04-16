@@ -1,5 +1,6 @@
 package com.muhammadabrararief.currencyrate.data.repository
 
+import androidx.lifecycle.MutableLiveData
 import com.muhammadabrararief.core.ext.addTo
 import com.muhammadabrararief.core.ext.failed
 import com.muhammadabrararief.core.ext.performOnBackOutOnMain
@@ -20,6 +21,10 @@ class ListRepository(
     override val rateFetchOutcome: PublishSubject<Outcome<List<Rate>>> =
         PublishSubject.create<Outcome<List<Rate>>>()
 
+    private val tempRates: MutableLiveData<List<Rate>> = MutableLiveData()
+    override val rates: MutableLiveData<List<Rate>> = tempRates
+
+
     override fun fetchRates() {
         remote.getRates()
             .performOnBackOutOnMain(scheduler)
@@ -30,6 +35,7 @@ class ListRepository(
                     Rate(entry.key, entry.value)
                 })
                 rateFetchOutcome.success(items)
+                tempRates.value = items
             }, { t -> rateFetchOutcome.failed(t) })
             .addTo(compositeDisposable)
     }

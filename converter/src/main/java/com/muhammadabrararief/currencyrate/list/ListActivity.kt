@@ -14,9 +14,7 @@ import kotlinx.android.synthetic.main.activity_list.*
 import java.io.IOException
 import javax.inject.Inject
 
-class ListActivity : CoreActivity() {
-
-    private val TAG = "ListActivity"
+class ListActivity : CoreActivity(), RatesAdapter.Listener {
 
     private val component by lazy { ConverterDH.listComponent() }
 
@@ -36,6 +34,7 @@ class ListActivity : CoreActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
         component.inject(this)
+        adapter.listener = this
         rvRates.adapter = adapter
         viewModel.getRates()
         initDataObserver()
@@ -43,33 +42,37 @@ class ListActivity : CoreActivity() {
 
     private fun initDataObserver() {
         //Observe the outcome and update state of the screen accordingly
-        viewModel.ratesOutcome.observe(this, Observer<Outcome<List<Rate>>> { outcome ->
-            Log.d(TAG, "initDataObserver: $outcome")
-            when (outcome) {
+//        viewModel.ratesOutcome.observe(this, Observer<Outcome<List<Rate>>> { outcome ->
+//            when (outcome) {
+//
+//                is Outcome.Success -> {
+//                    adapter.submitList(outcome.data.toMutableList())
+//                }
+//
+//                is Outcome.Failure -> {
+//                    outcome.e.printStackTrace()
+//                    if (outcome.e is IOException)
+//                        Toast.makeText(
+//                            context,
+//                            "Need Internet to fetch latest rates!",
+//                            Toast.LENGTH_LONG
+//                        ).show()
+//                    else
+//                        Toast.makeText(
+//                            context,
+//                            "Failed to load posts. Please try again later.",
+//                            Toast.LENGTH_LONG
+//                        ).show()
+//                }
+//
+//            }
+//        })
 
-                is Outcome.Success -> {
-                    Log.d(TAG, "initDataObserver: Successfully loaded data")
-                    adapter.submitList(outcome.data.toMutableList())
-                }
+        viewModel.rates.observe(this, Observer { t -> adapter.submitList(t) })
+    }
 
-                is Outcome.Failure -> {
-                    outcome.e.printStackTrace()
-                    if (outcome.e is IOException)
-                        Toast.makeText(
-                            context,
-                            "Need Internet to fetch latest rates!",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    else
-                        Toast.makeText(
-                            context,
-                            "Failed to load posts. Please try again later.",
-                            Toast.LENGTH_LONG
-                        ).show()
-                }
-
-            }
-        })
+    override fun onBaseRateChanged(position: Int, rate: Rate) {
+        viewModel.setBaseRate(position, rate)
     }
 
 }
