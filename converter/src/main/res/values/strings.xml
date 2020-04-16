@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">CurrencyRate</string>
+    <string name="app_name">Rates</string>
     <string name="text_hint">0</string>
 </resources>

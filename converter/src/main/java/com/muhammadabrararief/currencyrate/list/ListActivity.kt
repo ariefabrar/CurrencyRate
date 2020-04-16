@@ -37,7 +37,7 @@ class ListActivity : CoreActivity(), RatesAdapter.Listener {
     }
 
     private fun initDataObserver() {
-        viewModel.rates.observe(this, Observer { t -> adapter.submitList(t) })
+        viewModel.finalRates.observe(this, Observer { t -> adapter.submitList(t) })
     }
 
     override fun onBaseRateChanged(position: Int, rate: Rate) {
