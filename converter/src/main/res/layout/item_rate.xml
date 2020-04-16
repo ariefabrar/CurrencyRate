@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:paddingStart="@dimen/spacing_l"
+    android:paddingTop="@dimen/spacing_s"
+    android:paddingEnd="@dimen/spacing_l"
+    android:paddingBottom="@dimen/spacing_s">
+
+    <ImageView
+        android:id="@+id/ivCurrencyThumbnail"
+        android:layout_width="@dimen/currency_thumbnail_width"
+        android:layout_height="@dimen/currency_thumbnail_height"
+        android:adjustViewBounds="true"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_launcher_background" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCurrencyShort"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_m"
+        android:includeFontPadding="false"
+        android:textAllCaps="true"
+        app:layout_constraintBottom_toTopOf="@+id/tvCurrencyLong"
+        app:layout_constraintStart_toEndOf="@+id/ivCurrencyThumbnail"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="IDR" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCurrencyLong"
+        style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_xxs"
+        android:ellipsize="end"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/barrier"
+        app:layout_constraintStart_toStartOf="@+id/tvCurrencyShort"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrencyShort"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Indonesian Rupiah" />
+
+    <EditText
+        android:id="@+id/etCurrency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints="0"
+        android:hint="@string/text_hint"
+        android:inputType="numberDecimal"
+        app:layout_constraintBottom_toBottomOf="@id/ivCurrencyThumbnail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivCurrencyThumbnail"
+        tools:text="123,45" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="etCurrency" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
