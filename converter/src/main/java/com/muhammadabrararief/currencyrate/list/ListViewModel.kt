@@ -18,9 +18,9 @@ class ListViewModel(
 ) : ViewModel() {
 
     val finalRates = MediatorLiveData<List<Rate>>()
-    private val rates: LiveData<List<Rate>> = repo.rates
-    private val baseRate: MutableLiveData<Rate> = MutableLiveData(Rate("EUR", 1.0))
-    private val sortedRates: MutableLiveData<List<Rate>> = MutableLiveData()
+    val rates: LiveData<List<Rate>> = repo.rates
+    val baseRate: MutableLiveData<Rate> = MutableLiveData(Rate("EUR", 1.0))
+    val sortedRates: MutableLiveData<List<Rate>> = MutableLiveData()
     private lateinit var timer: Timer
 
     val stateOutcome: LiveData<Outcome<String>> by lazy {

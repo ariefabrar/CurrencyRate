@@ -7,6 +7,8 @@ android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
 
+    testOptions.unitTests.includeAndroidResources = true
+
     defaultConfig {
         applicationId "com.muhammadabrararief.currencyrate"
         minSdkVersion versions.minSdk
@@ -20,10 +22,10 @@ android {
     buildTypes {
         release {
             postprocessing {
-                removeUnusedCode false
-                removeUnusedResources false
-                obfuscate false
-                optimizeCode false
+                removeUnusedCode true
+                removeUnusedResources true
+                obfuscate true
+                optimizeCode true
                 proguardFile 'proguard-rules.pro'
             }
         }
@@ -54,11 +56,7 @@ dependencies {
     testImplementation deps.test.mockitoKotlin
     testImplementation deps.test.robolectric
     testImplementation deps.test.mockWebServer
-    testImplementation deps.test.livedataTesting
-    testImplementation deps.test.roomTesting
 
     androidTestImplementation deps.test.junit
     androidTestImplementation deps.test.mockitoKotlin
-    androidTestImplementation deps.test.roomTesting
-    androidTestImplementation deps.test.livedataTesting
 }

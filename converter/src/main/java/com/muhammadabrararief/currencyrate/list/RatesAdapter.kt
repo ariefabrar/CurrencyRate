@@ -15,8 +15,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.muhammadabrararief.currencyrate.R
 import kotlinx.android.synthetic.main.item_rate.view.*
 import java.util.*
+import javax.inject.Inject
 
-class RatesAdapter(private val glide: RequestManager) :
+class RatesAdapter (private val glide: RequestManager) :
     ListAdapter<Rate, RatesAdapter.ListViewHolder>(RateItemDC()) {
 
     var listener: Listener? = null

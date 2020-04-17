@@ -13,7 +13,6 @@ import com.muhammadabrararief.currencyrate.data.local.ListLocalData
 import com.muhammadabrararief.currencyrate.data.remote.ListRemoteData
 import com.muhammadabrararief.currencyrate.data.repository.ListRepository
 import com.muhammadabrararief.currencyrate.list.ListActivity
-import com.muhammadabrararief.currencyrate.list.ListViewModelFactory
 import com.muhammadabrararief.currencyrate.list.RatesAdapter
 import dagger.Component
 import dagger.Module
@@ -22,27 +21,19 @@ import io.reactivex.disposables.CompositeDisposable
 import retrofit2.Retrofit
 
 @ConverterScope
-@Component(dependencies = [CoreComponent::class], modules = [ListModule::class])
-interface ListComponent {
+@Component(dependencies = [CoreComponent::class], modules = [ConverterModule::class])
+interface ConverterComponent {
 
     fun inject(listActivity: ListActivity)
 }
 
 @Module
-class ListModule {
+class ConverterModule {
 
     /*Adapter*/
     @Provides
     @ConverterScope
     fun adapter(context: Context): RatesAdapter = RatesAdapter(Glide.with(context))
-
-    /*ViewModel*/
-    @Provides
-    @ConverterScope
-    fun listViewModelFactory(
-        repository: ListDataContract.Repository,
-        compositeDisposable: CompositeDisposable
-    ): ListViewModelFactory = ListViewModelFactory(repository, compositeDisposable)
 
     /*Repository*/
     @Provides
