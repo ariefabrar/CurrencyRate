@@ -27,7 +27,6 @@
   **[] $VALUES;
   public *;
 }
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
 #GSON
 ##---------------Begin: proguard configuration for Gson  ----------
