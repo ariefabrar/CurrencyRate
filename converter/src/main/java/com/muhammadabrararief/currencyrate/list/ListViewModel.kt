@@ -1,8 +1,11 @@
 package com.muhammadabrararief.currencyrate.list
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.muhammadabrararief.core.ext.toLiveData
+import com.muhammadabrararief.core.network.Outcome
 import com.muhammadabrararief.currencyrate.common.ConverterDH
 import com.muhammadabrararief.currencyrate.data.contract.ListDataContract
 import io.reactivex.disposables.CompositeDisposable
@@ -15,10 +18,14 @@ class ListViewModel(
 ) : ViewModel() {
 
     val finalRates = MediatorLiveData<List<Rate>>()
-    private val rates: MutableLiveData<List<Rate>> = repo.rates
+    private val rates: LiveData<List<Rate>> = repo.rates
     private val baseRate: MutableLiveData<Rate> = MutableLiveData(Rate("EUR", 1.0))
     private val sortedRates: MutableLiveData<List<Rate>> = MutableLiveData()
     private lateinit var timer: Timer
+
+    val stateOutcome: LiveData<Outcome<String>> by lazy {
+        repo.stateOutcome.toLiveData(compositeDisposable)
+    }
 
     init {
         finalRates.addSource(rates) { finalRates.value = mixData(rates, baseRate, sortedRates) }
@@ -27,18 +34,18 @@ class ListViewModel(
     }
 
     private fun mixData(
-        _rates: MutableLiveData<List<Rate>>,
+        _rates: LiveData<List<Rate>>,
         _baseRate: MutableLiveData<Rate>,
         _sortedRates: MutableLiveData<List<Rate>>
     ): List<Rate>? {
         val latestRates = _rates.value
         val newBaseRate = _baseRate.value
-        val sortedRates = _sortedRates.value
+        var sortedRates = _sortedRates.value
 
         if (latestRates.isNullOrEmpty() || newBaseRate == null) return emptyList()
         if (sortedRates.isNullOrEmpty()) {
+            sortedRates = latestRates
             this.sortedRates.value = latestRates
-            return emptyList()
         }
 
         val inputAmount = newBaseRate.amount
@@ -65,6 +72,11 @@ class ListViewModel(
         timer.schedule(0, 1000) {
             repo.fetchRates()
         }
+    }
+
+    fun stopPolling() {
+        timer.cancel()
+        timer.purge()
     }
 
     override fun onCleared() {

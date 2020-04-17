@@ -1,6 +1,6 @@
 package com.muhammadabrararief.currencyrate.data.contract
 
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
 import com.muhammadabrararief.core.network.Outcome
 import com.muhammadabrararief.currencyrate.data.model.resp.RatesResponse
 import com.muhammadabrararief.currencyrate.list.Rate
@@ -10,13 +10,15 @@ import io.reactivex.subjects.PublishSubject
 interface ListDataContract {
 
     interface Repository {
-        val rateFetchOutcome: PublishSubject<Outcome<List<Rate>>>
-        val rates: MutableLiveData<List<Rate>>
+        val stateOutcome: PublishSubject<Outcome<String>>
+        val rates: LiveData<List<Rate>>
         fun handleError(error: Throwable)
         fun fetchRates()
     }
 
     interface Local {
+        fun getAllRates(): LiveData<List<Rate>>
+        fun insertAllRates(rates: List<Rate>)
     }
 
     interface Remote {
